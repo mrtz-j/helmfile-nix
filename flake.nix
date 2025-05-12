@@ -9,10 +9,18 @@
   inputs.gomod2nix.inputs.nixpkgs.follows = "nixpkgs";
   inputs.gomod2nix.inputs.flake-utils.follows = "flake-utils";
 
+  # NOTE(mrtz): Work with default.nix
+  inputs.flake-compat = {
+    url = "git+https://git.lix.systems/lix-project/flake-compat";
+    # Optional:
+    flake = false;
+  };
+
   outputs =
     {
       devenv,
       flake-utils,
+      flake-compat,
       gomod2nix,
       nixpkgs,
       self,
@@ -27,7 +35,7 @@
         callPackage = pkgs.darwin.apple_sdk_11_0.callPackage or pkgs.callPackage;
       in
       {
-        packages.default = callPackage ./. {
+        packages.default = callPackage ./package.nix {
           inherit (gomod2nix.legacyPackages.${system}) buildGoApplication;
         };
         packages.devenv-up = self.devShells.${system}.default.config.procfileScript;
