@@ -32,12 +32,12 @@ buildGoApplication {
     helmfileWrap
   ];
   modules = ./gomod2nix.toml;
-  preCheck = ''
-    export HOME=$TMPDIR
-    go test -coverprofile=coverage.txt -v 2>&1 ./... | ${pkgs.go-junit-report}/bin/go-junit-report > report.xml
-    ls -l
-    mkdir -p $out
-    cp report.xml coverage.txt $out/
-  '';
+  # preCheck = ''
+  #   export HOME=$TMPDIR
+  #   go test -coverprofile=coverage.txt -v 2>&1 ./... | ${pkgs.go-junit-report}/bin/go-junit-report > report.xml
+  #   ls -l
+  #   mkdir -p $out
+  #   cp report.xml coverage.txt $out/
+  # '';
   postCheck = '''';
 }

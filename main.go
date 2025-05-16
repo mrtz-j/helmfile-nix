@@ -125,34 +125,34 @@ func findFileNameAndBase() (string, string, error) {
 		return "", "", err
 	}
 
-	fileInfo, err := os.Stat(path)
+	_, err = os.Stat(path)
 	if err != nil {
 		return "", "", err
 	}
 
 	// Check if the file is a directory
-	if fileInfo.IsDir() {
+	// if fileInfo.IsDir() {
 		// Read the contents of the directory
-		files, err := os.ReadDir(path)
-		if err != nil {
-			return "", "", err
-		}
+		// _, err := os.ReadDir(path)
+		// if err != nil {
+			// return "", "", err
+		// }
 
 		// Check if the desired file exists in the directory
-		for _, file := range files {
-			if file.Name() == "helmfile.nix" {
-				return "helmfile.nix", path, nil
-			} else if file.Name() == "helmfile.gotmpl.nix" {
-				return "helmfile.gotmpl.nix", path, nil
-			}
-		}
+		// for _, file := range files {
+		// 	if file.Name() == "helmfile.nix" {
+		// 		return "helmfile.nix", path, nil
+		// 	} else if file.Name() == "helmfile.gotmpl.nix" {
+		// 		return "helmfile.gotmpl.nix", path, nil
+			// }
+		// }
 
-		l.Fatalln("No helmfile.nix or helmfile.gotmpl.nix found in: ", path)
-	}
+		// l.Fatalln("No helmfile.nix or helmfile.gotmpl.nix found in: ", path)
+	// }
 
-	if filepath.Base(path) != "helmfile.nix" && filepath.Base(path) != "helmfile.gotmpl.nix" {
-		l.Fatalln("Trying to use a file that is not helmfile.nix or helmfile.gotmpl.nix: ", path)
-	}
+	// if strings.HasSuffix(filepath.Base(path), ".nix") || strings.HasSuffix(filepath.Base(path), ".gotmpl.nix") {
+	//  l.Fatalln("Trying to use a file that is not helmfile.nix or helmfile.gotmpl.nix: ", path)
+	// }
 
 	return filepath.Base(path), filepath.Dir(path), nil
 }
